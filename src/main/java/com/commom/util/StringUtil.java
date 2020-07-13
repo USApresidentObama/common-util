@@ -4,6 +4,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -526,16 +527,29 @@ public class StringUtil {
     /**
      * 通过list获得以逗号隔开的字符串
      *
-     * @param list
+     * @param coll
      * @return
      */
-    public static String getCollectionStr(List<?> list) {
-        if (list == null || list.size() == 0) {
+    public static String toString(Collection<?> coll) {
+        return toString(coll, ",");
+    }
+
+    /**
+     * 通过list获得以分隔符隔开的字符串
+     *
+     * @param coll
+     *          集合
+     * @param separator
+     *          分隔符
+     * @return
+     */
+    public static String toString(Collection<?> coll, String separator) {
+        if (ValidUtil.isEmpty(coll)) {
             return null;
         }
         StringBuilder objs = new StringBuilder();
-        for (Object obj : list) {
-            objs.append(obj).append(",");
+        for (Object obj : coll) {
+            objs.append(obj).append(separator);
         }
         if (objs.length() > 0) {
             objs.deleteCharAt(objs.length() - 1);
@@ -587,16 +601,6 @@ public class StringUtil {
         return "".equals(objs.toString()) ? null : objs.toString();
     }
 
-    public static int string2int(String str, int defaultValue) {
-        if (str == null || str.trim().length() == 0) {
-            return defaultValue;
-        }
-        try {
-            return Integer.parseInt(str);
-        } catch (Exception e) {
-            return defaultValue;
-        }
-    }
 
     public static boolean isNull(String value) {
         return (value == null || value.trim().length() == 0) ? true : false;

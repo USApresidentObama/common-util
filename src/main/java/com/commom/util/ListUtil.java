@@ -1,6 +1,5 @@
 package com.commom.util;
 
-import com.commom.util.ValidUtil;
 import com.google.common.base.Function;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
@@ -8,7 +7,10 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Range;
 import com.google.common.collect.Sets;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -459,5 +461,82 @@ public class ListUtil {
             }
         }
         return new ArrayList<T>(set);
+    }
+
+    /**
+     * String 转化为List<Long><br>
+     * trim处理
+     *
+     * @param data
+     *            指定分隔符(<code>separatorChar</code>)字符串
+     * @param separatorChar
+     *            字符串的分隔符(如为空则默认",")
+     * @return List<Long>
+     */
+    public static List<Long> string2LongList(String data, String separatorChar) {
+        if (StringUtil.isBlank(data)) {
+            return null;
+        }
+        if (StringUtil.isBlank(separatorChar)) {
+            separatorChar = ",";
+        }
+        String[] items = StringUtils.split(data, separatorChar);
+        List<Long> result = new ArrayList<Long>(items.length);
+        for (String item : items) {
+            try {
+                result.add(Long.valueOf(item.trim()));
+            } catch (NumberFormatException e) {
+//                MonitorLogger.getInstance().log(MessageFormat.format("参数类型不正确,item:{0}", item));
+                continue;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * String 转化为List<Long><br>
+     *
+     * @param data
+     *            ","分隔的字符串
+     * @return List<Long>
+     */
+    public static List<Long> string2LongList(String data) {
+        return string2LongList(data, ",");
+    }
+
+    /**
+     * 将String转换成List<Integer>
+     *
+     * @param data
+     *            ","分隔的字符串
+     * @return List<Integer>
+     */
+    public static List<Integer> string2IntegerList(String data) {
+        return string2IntegerList(data, ",");
+    }
+
+    /**
+     * 将String转换成List<Integer>
+     *
+     * @param data
+     *            <code>separatorChar</code>分隔的字符串
+     * @param separatorChar
+     *            字符串的分隔符(如为空则默认",")
+     * @return List<Integer>
+     */
+    public static List<Integer> string2IntegerList(String data, String separatorChar) {
+        if (StringUtil.isBlank(data)) {
+            return null;
+        }
+
+        if (StringUtil.isBlank(separatorChar)) {
+            separatorChar = ",";
+        }
+        String[] items = StringUtils.split(data, separatorChar);
+        List<Integer> result = new ArrayList<Integer>(items.length);
+        for (String item : items) {
+            result.add(Integer.valueOf(item.trim()));
+        }
+        return result;
     }
 }
