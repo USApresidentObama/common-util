@@ -1,4 +1,13 @@
+package com.commom.util;
+
 import com.commom.util.ValidUtil;
+import com.google.common.base.Function;
+import com.google.common.base.Predicates;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Range;
+import com.google.common.collect.Sets;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -146,7 +155,7 @@ public class ListUtil {
      * list 转换F(rom) => T(o)
      *
      * @param list
-     * @param convertFunction
+     * @param convert
      * @return
      */
     public static <F, T> List<T> convert(List<F> list, Function<F, T> convert) {
@@ -169,19 +178,19 @@ public class ListUtil {
         return backList;
     }
 
-    /**
-     * Long集合 转换为Integer集合
-     *
-     * @param list
-     *            {@link Long}集合(注:如long==null or long<=0则转换为0)
-     * @return
-     */
-    public static List<Integer> longList2IntegerList(List<Long> list) {
-        if (ValidUtil.isEmpty(list)) {
-            return Lists.newArrayList();
-        }
-        return convert(list, ConvertFunctions.longToIntegerFunction());
-    }
+//    /**
+//     * Long集合 转换为Integer集合
+//     *
+//     * @param list
+//     *            {@link Long}集合(注:如long==null or long<=0则转换为0)
+//     * @return
+//     */
+//    public static List<Integer> longList2IntegerList(List<Long> list) {
+//        if (ValidUtil.isEmpty(list)) {
+//            return Lists.newArrayList();
+//        }
+//        return convert(list, ConvertFunctions.longToIntegerFunction());
+//    }
 
     // -----------------------------------------
     /**
@@ -241,11 +250,9 @@ public class ListUtil {
      * @param value
      *            增加值
      * @return List<T>
-     * @createTime 2017年11月20日
-     * @author yuanjl
      */
     public static <T> List<T> merge(List<T> list, T value) {
-        list = BCommonUtil.nullToDefault(list, new ArrayList<T>());
+        list = CommonUtil.nullToDefault(list, new ArrayList<T>());
         if (value == null) {
             return list;
         }
@@ -301,13 +308,9 @@ public class ListUtil {
     /**
      * 合并list(排重且保证顺序)，排除""、null
      *
-     * @param list
+     * @param listAry
      *            集合
-     * @param appendList
-     *            追加值
      * @return List<T>
-     * @createTime 2017年12月29日
-     * @author yuanjl
      */
     public static <T> List<T> sortMerge(List<T>... listAry) {
         return sortMerge(null, listAry);
@@ -321,8 +324,6 @@ public class ListUtil {
      * @param listAry
      *            合并的多个list
      * @return List<T>
-     * @createTime 2017年12月29日
-     * @author yuanjl
      */
     public static <T> List<T> sortMerge(Integer _maxSize, List<T>... listAry) {
         if (listAry == null || listAry.length <= 0) {
@@ -361,8 +362,6 @@ public class ListUtil {
      * @param eachGroupCount
      *            每个数组的元素个数
      * @return
-     * @createTime 2018年11月5日 下午5:51:36
-     * @author yuanjl
      */
     public static <T> List<List<T>> splitList(List<T> inputList, int eachGroupCount) {
         if (inputList == null || inputList.isEmpty() || eachGroupCount < 1) {
